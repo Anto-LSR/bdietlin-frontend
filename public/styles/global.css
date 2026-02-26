@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
+
 /* ==========================================================================
    VARIABLES DE COULEURS (Palette personnalisée intégrée)
    ========================================================================== */
@@ -28,6 +30,7 @@
 
 body {
     font-family: 'Merriweather', serif;
+
     line-height: 1.7;
     color: var(--text-main);
     /* Dégradé basé sur tes couleurs SCSS converties */
@@ -54,12 +57,17 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    background: var(--carbon-black);
+    background: #1C1B1B90;
     backdrop-filter: blur(10px);
     z-index: 100;
     padding: 1rem 0;
     border-bottom: 1px solid rgba(161, 84, 10, 0.1);
 }
+
+header img {
+    max-height: 50px;
+}
+
 
 nav {
     display: flex;
@@ -110,7 +118,7 @@ nav a:hover {
     justify-content: center;
     text-align: center;
     color: white;
-    text-shadow: 2px 2px 12px rgba(0,0,0,0.6);
+    text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 .hero h1 {
@@ -177,14 +185,23 @@ h2 {
 }
 
 @media (min-width: 768px) {
-    .grid { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+
+
+    /*.icon_and_text {*/
+    /*    width: 100% !important;*/
+    /*    width: -webkit-fill-available;*/
+    /*    justify-content: space-between;*/
+    /*}*/
 }
 
 /* ==========================================================================
    CARDS
    ========================================================================== */
 .card {
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.95);
     padding: 3rem 2rem;
     text-align: center;
     box-shadow: 0 15px 40px rgba(28, 27, 27, 0.05);
@@ -238,7 +255,9 @@ footer {
    RESPONSIVE
    ========================================================================== */
 @media (max-width: 768px) {
-    .container { padding: 0 1.5rem; }
+    .container {
+        padding: 0 1.5rem;
+    }
 
     nav ul {
         display: none;
@@ -255,5 +274,10 @@ footer {
 
     nav ul.active {
         display: flex;
+    }
+
+    .icon_and_text {
+        width: 100%;
+        justify-content: space-between;
     }
 }
