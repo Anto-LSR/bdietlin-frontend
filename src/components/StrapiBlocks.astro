@@ -1,0 +1,80 @@
+---
+interface Props {
+    content: any[];
+}
+
+const { content } = Astro.props;
+
+// Fonction pour transformer le texte et les styles (bold, italic, links, etc.)
+// On l'utilise de manière récursive pour gérer les liens à l'intérieur des textes
+const renderNodes = (nodes: any[]): string => {
+    return nodes.map((node) => {
+        if (node.type === 'link') {
+            return `<a href="${node.url}" target="${node.target || '_self'}">${renderNodes(node.children)}</a>`;
+        }
+
+        if (node.type === 'text') {
+            let text = node.text;
+            if (node.bold) text = `<strong>${text}</strong>`;
+            if (node.italic) text = `<em>${text}</em>`;
+            if (node.underline) text = `<u>${text}</u>`;
+            if (node.strikethrough) text = `<del>${text}</del>`;
+            if (node.code) text = `<code>${text}</code>`;
+            return text;
+        }
+        return '';
+    }).join('');
+};
+---
+
+<div class="strapi-content">
+    {content.map((block) => {
+        // Gestion des titres (Heading)
+    if (block.type === 'heading') {
+            const HeadingTag = `h${block.level}`;
+            return <HeadingTag set:html={renderNodes(block.children)} />;
+        }
+
+        // Gestion des paragraphes
+    if (block.type === 'paragraph') {
+            const htmlContent = renderNodes(block.children);
+            return htmlContent ? <p set:html={htmlContent} /> : null;
+        }
+
+        // Gestion des listes
+    if (block.type === 'list') {
+            const ListTag = block.format === 'ordered' ? 'ol' : 'ul';
+            return (
+                    <ListTag>
+                        {block.children.map((item: any) => (
+                                <li set:html={renderNodes(item.children)} />
+                        ))}
+                    </ListTag>
+            );
+        }
+
+        return null;
+    })}
+</div>
+
+<style>
+    .strapi-content {
+        --primary: #3b82f6;
+        line-height: 1.7;
+    }
+    .strapi-content h1 { font-size: 2.25rem; font-weight: 800; margin: 1.5rem 0 1rem; }
+    .strapi-content h2 { font-size: 1.8rem; font-weight: 700; margin: 1.2rem 0 0.8rem; }
+    .strapi-content h3 { font-size: 1.5rem; font-weight: 600; }
+    .strapi-content p { margin-bottom: 1.25rem; min-height: 1em; }
+    .strapi-content ul { list-style-type: disc; margin: 0 0 1.25rem 1.5rem; }
+    .strapi-content ol { list-style-type: decimal; margin: 0 0 1.25rem 1.5rem; }
+    .strapi-content a { color: var(--primary); text-decoration: underline; font-weight: 500; }
+    .strapi-content code {
+        background: #f1f5f9;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.375rem;
+        font-size: 0.9em;
+        font-family: ui-monospace, monospace;
+        word-break: break-all;
+    }
+</style>

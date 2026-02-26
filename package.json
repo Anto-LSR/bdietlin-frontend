@@ -1,0 +1,17 @@
+{
+  "name": "frontend",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@strapi/client": "^1.6.1",
+    "astro": "^5.17.1",
+    "astro-swiper": "^2.1.0",
+    "swiper": "^12.1.2"
+  }
+}
