@@ -1,12 +1,110 @@
+---
+import chat from '../assets/chat.jpg'
+---
+
+
 <section id="services">
     <div class="container">
-        <h2>Artisanat d'Excellence</h2>
+        <h2 style="color:white;">L'atelier</h2>
         <div class="grid">
+            <div class="card">
+                <h3>Fabrication sur mesure</h3>
+                <p>Diagnostic précis et restauration fidèle des instruments anciens.</p>
+            </div>
             <div class="card">
                 <h3>Réparation Experte</h3>
                 <p>Diagnostic précis et restauration fidèle des instruments anciens.</p>
             </div>
+            <div class="card">
+                <h3>Entretien</h3>
+                <p>Entretien, vidange, changement des filtres à air.</p>
+            </div>
+
             <!-- Entretien, Sur-mesure -->
         </div>
     </div>
+
+    <!-- Mascotte Pacha -->
+    <div class="mascot-wrapper">
+        <div class="mascot-bubble">
+            Lui c'est Pacha, c'est lui qui m'a tout appris et qui gère le bilan comptable
+        </div>
+        <img src="/assets/images/mascotte.png" alt="Mascotte Pacha" class="mascot-img" />
+    </div>
 </section>
+
+<style>
+    .mascot-wrapper {
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
+        width: 120px;
+        height: 120px;
+        cursor: pointer;
+        z-index: 10;
+        transition: transform 0.3s ease;
+    }
+
+    .mascot-wrapper:hover {
+        transform: scale(1.05);
+    }
+
+    .mascot-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--chocolate-brown);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    }
+
+    .mascot-bubble {
+        position: absolute;
+        bottom: 130%;
+        right: 0;
+        background: white;
+        color: var(--coffee-bean);
+        padding: 1rem;
+        border-radius: 15px;
+        width: 250px;
+        font-size: 0.95rem;
+        font-family: 'Merriweather', serif;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    .mascot-bubble::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        right: 50px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+    }
+
+    .mascot-wrapper:hover .mascot-bubble {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(-10px);
+    }
+
+    @media (max-width: 768px) {
+        .mascot-wrapper {
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+        }
+        .mascot-bubble {
+            width: 200px;
+            right: -10px;
+        }
+        .mascot-bubble::after {
+            right: 30px;
+        }
+    }
+</style>
