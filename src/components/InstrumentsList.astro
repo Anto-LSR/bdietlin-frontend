@@ -1,19 +1,7 @@
 ---
 import { Swiper, SwiperWrapper, SwiperSlide, SwiperPagination, SwiperButtonNext, SwiperButtonPrev } from "astro-swiper";
-import gtr1 from '../assets/gtr1.jpg';  // Astro optimise automatiquement (webp, lazy...)
-import mandoloctav from '../assets/mandoloctav.jpg';
-import dzc from '../assets/dzc.jpg';
-
-
-// Dummy data
-const instruments = [
-    { slug: 'guitare-acoustique', nom: "Guitare en bois", img: gtr1.src, type: 'Guitare Acoustique' },
-    { slug: 'mandoline-octave', nom: 'Mandoline Octave', img: mandoloctav.src, type: 'Mandoline' },
-    { slug: 'gtr-12', nom: 'Schooner', img: dzc.src, type: 'Guitare Acoustique' },
-    { slug: 'guitare-ebene', nom: 'Ébène Sombre', img: 'https://picsum.photos/seed/guitare2/800/1000', type: 'Guitare Acoustique' },
-    { slug: 'alto-virtuose', nom: 'Alto Virtuose', img: 'https://picsum.photos/seed/alto1/800/1000', type: 'Alto' },
-    { slug: 'contrebasse-pro', nom: 'Contrebasse Pro', img: 'https://picsum.photos/seed/bass1/800/1000', type: 'Contrebasse' },
-];
+import { instruments } from "../data/instruments";
+import InstrumentCard from "./InstrumentCard.astro";
 ---
 
 <section id="instruments">
@@ -49,18 +37,7 @@ const instruments = [
                 <SwiperWrapper>
                     {instruments.map((inst) => (
                         <SwiperSlide>
-                            <a href={`/instruments/${inst.slug}`} class="instrument-link">
-                                <article class="instrument-card">
-                                    <div class="image-wrapper">
-                                        <img src={inst.img} alt={inst.nom} loading="lazy" />
-                                        <span class="category">{inst.type}</span>
-                                    </div>
-                                    <div class="content">
-                                        <h3>{inst.nom}</h3>
-                                        <p>Découvrir l'instrument <span class="arrow">→</span></p>
-                                    </div>
-                                </article>
-                            </a>
+                            <InstrumentCard instrument={inst} />
                         </SwiperSlide>
                     ))}
                 </SwiperWrapper>
@@ -79,94 +56,57 @@ const instruments = [
                 </SwiperButtonNext>
             </div>
         </div>
+        
+        <div class="view-all">
+            <a href="/instruments" class="btn-minimal">
+                Voir toute la collection
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
     </div>
 </section>
 
 <style>
-    .swiper-container {
-        position: relative;
-        padding-bottom: 4rem;
+    .view-all {
+        display: flex;
+        justify-content: center;
+        margin-top: 4rem;
     }
 
-    .instrument-link {
+    .btn-minimal {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--chocolate-brown);
         text-decoration: none;
-        color: inherit;
-        display: block;
+        font-family: 'Merriweather', serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        padding: 0.8rem 1.5rem;
+        border: 2px solid var(--chocolate-brown);
+        border-radius: 4px;
+        transition: all 0.3s ease;
     }
 
-    .instrument-card {
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        height: 100%;
-        border: 1px solid rgba(161, 84, 10, 0.1);
-    }
-
-    .instrument-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(161, 84, 10, 0.15);
-    }
-
-    .image-wrapper {
-        position: relative;
-        height: 350px;
-        overflow: hidden;
-    }
-
-    .image-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .instrument-card:hover .image-wrapper img {
-        transform: scale(1.05);
-    }
-
-    .category {
-        position: absolute;
-        bottom: 1rem;
-        left: 1rem;
+    .btn-minimal:hover {
         background: var(--chocolate-brown);
         color: white;
-        padding: 0.4rem 1rem;
-        font-size: 0.85rem;
-        font-weight: 600;
-        border-radius: 4px;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        transform: translateY(-3px);
     }
 
-    .content {
-        padding: 1.5rem;
-        background: #fff;
-    }
-
-    .content h3 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-        color: var(--onyx);
-    }
-
-    .content p {
-        color: var(--chocolate-brown);
-        font-weight: 600;
-        font-size: 0.95rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    .arrow {
+    .btn-minimal svg {
         transition: transform 0.3s ease;
     }
 
-    .instrument-card:hover .arrow {
+    .btn-minimal:hover svg {
         transform: translateX(5px);
+    }
+
+    .swiper-container {
+        position: relative;
+        padding-bottom: 4rem;
     }
 
     /* Swiper Controls Customization */

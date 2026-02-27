@@ -60,8 +60,13 @@ const desc =
             "target": ""
         }, {"text": "", "type": "text"}]
     }]
-const res = await fetch('http://localhost:1339/api/instruments?populate=*')
-const data = await res.json()
+let data = { data: [] };
+try {
+    const res = await fetch('http://localhost:1339/api/instruments?populate=*')
+    data = await res.json()
+} catch (e) {
+    console.error("Failed to fetch from Strapi:", e.message);
+}
 console.dir(data, {depth: null})
 ---
 

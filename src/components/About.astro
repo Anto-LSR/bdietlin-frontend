@@ -1,0 +1,315 @@
+---
+import { Image, getImage } from 'astro:assets';
+import benjiphoto from '../assets/benjiphoto.JPG';
+import atelierBg from '../assets/images/atelier.jpg';
+
+const optimizedAtelier = await getImage({ src: atelierBg, format: 'webp' });
+---
+<section id="about-hero" style={`background: linear-gradient(rgba(11, 11, 11, 0.7), rgba(11, 11, 11, 0.7)), url(${optimizedAtelier.src}) center/cover no-repeat fixed;`}>
+    <div class="container hero-container">
+        <div class="hero-content">
+            <span class="subtitle">L'Art de la Lutherie</span>
+            <h1>Benjamin Dietlin</h1>
+            <p class="lead-text">
+                Créer des guitares qui racontent une histoire, celle du bois, de l'artisan et du musicien qui les fera vibrer.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="about-story">
+    <div class="container">
+        <div class="story-grid">
+            <div class="story-image">
+                <div class="image-frame">
+                    <Image src={benjiphoto} alt="Benjamin Dietlin luthier" class="profile-photo" />
+                </div>
+            </div>
+            <div class="story-text">
+                <h2>Qui suis-je ?</h2>
+                <p>
+                    Je m'appelle Benjamin Dietlin, et à 31 ans, j'ai fait de ma passion pour la lutherie une véritable philosophie de vie.
+                </p>
+                <p>
+                    Installé à Divatte-sur-Loire, dans le vignoble de Nantes, j'exerce un métier qui va bien au-delà de la simple fabrication d'instruments.
+                </p>
+                <div class="story-quote">
+                    <blockquote>
+                        "La beauté naît de la patience et de l'attention portée à ce que l'on fait."
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about-details">
+    <div class="container">
+        <div class="details-grid">
+            <div class="detail-card">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3>Ma démarche</h3>
+                <p>
+                    Établir un dialogue constant entre tradition et conscience environnementale. Chaque instrument est le fruit d'une attention particulière portée aux matériaux, à leur origine, et à leur impact sur notre planète.
+                </p>
+                <p>
+                    Je sélectionne mes bois avec soin, en privilégiant des essences durables et en respectant l'environnement qui nous entoure.
+                </p>
+            </div>
+
+            <div class="detail-card">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <h3>Mon métier</h3>
+                <p>
+                    Fabrication sur mesure d'instruments à cordes pincées, réparation, réglage et entretien. Chaque projet est unique et adapté aux besoins spécifiques du musicien.
+                </p>
+                <p>
+                    Mon approche allie savoir-faire artisanal et sensibilité musicale, pour créer des instruments qui répondent aux exigences acoustiques et ergonomiques les plus hautes.
+                </p>
+            </div>
+
+            <div class="detail-card">
+                <div class="icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+                </div>
+                <h3>Philosophie</h3>
+                <p>
+                    Plus qu'un métier, la lutherie est une façon d'être au monde. C'est accepter que chaque geste compte, que chaque détail a son importance.
+                </p>
+                <p>
+                    Si vous cherchez un instrument qui vous ressemble, fabriqué avec passion et conscience, je serais heureux d'échanger avec vous sur votre projet.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-content, .story-image, .story-text, .detail-card {
+        animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .story-image { animation-delay: 0.2s; }
+    .story-text { animation-delay: 0.4s; }
+    .detail-card:nth-child(1) { animation-delay: 0.2s; }
+    .detail-card:nth-child(2) { animation-delay: 0.4s; }
+    .detail-card:nth-child(3) { animation-delay: 0.6s; }
+
+    /* Hero Section Styles */
+    #about-hero {
+        height: 60vh;
+        min-height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--bg-light);
+        padding: 160px 0 60px 0; /* Header space and bottom space */
+        background-attachment: fixed;
+    }
+
+    .subtitle {
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        font-size: 0.9rem;
+        color: var(--oak-wood);
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    #about-hero h1 {
+        color: white;
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        margin-bottom: 1.5rem;
+    }
+
+    .lead-text {
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        line-height: 1.6;
+        opacity: 0.9;
+        font-family: 'Merriweather', serif;
+    }
+
+    /* Story Section Styles */
+    #about-story {
+        background: white;
+        padding: 8rem 0;
+    }
+
+    .story-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: center;
+    }
+
+    .story-image {
+        position: relative;
+    }
+
+    .image-frame {
+        position: relative;
+        z-index: 1;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 20px 20px 0 var(--bg-light);
+    }
+
+    .profile-photo {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: var(--transition-smooth);
+    }
+
+    .profile-photo:hover {
+        transform: scale(1.05);
+    }
+
+    .story-text h2 {
+        text-align: left;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .story-text h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: var(--chocolate-brown);
+    }
+
+    .story-text p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--ash-brown);
+        margin-bottom: 1.5rem;
+    }
+
+    .story-quote {
+        margin-top: 3rem;
+        padding-left: 2rem;
+        border-left: 3px solid var(--oak-wood);
+    }
+
+    blockquote {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 1.5rem;
+        color: var(--coffee-bean);
+        line-height: 1.4;
+    }
+
+    /* Details Grid Styles */
+    #about-details {
+        padding: 8rem 0;
+        background: var(--bg-light);
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+    }
+
+    .detail-card {
+        background: white;
+        padding: 3.5rem 2.5rem;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+        transition: var(--transition-smooth);
+        border: 1px solid rgba(198, 157, 119, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .detail-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(161, 84, 10, 0.08);
+        border-color: var(--oak-wood);
+    }
+
+    .icon-wrapper {
+        width: 60px;
+        height: 60px;
+        background: var(--bg-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--chocolate-brown);
+        margin-bottom: 2rem;
+        transition: var(--transition-smooth);
+    }
+
+    .detail-card:hover .icon-wrapper {
+        background: var(--chocolate-brown);
+        color: white;
+    }
+
+    .detail-card h3 {
+        color: var(--coffee-bean);
+        margin-bottom: 1.5rem;
+        font-size: 1.6rem;
+    }
+
+    .detail-card p {
+        color: var(--ash-brown);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .story-grid {
+            gap: 3rem;
+        }
+
+        .details-grid {
+            grid-template-columns: 1fr;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .story-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .story-image {
+            order: -1;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        #about-hero {
+            height: auto;
+            min-height: 450px;
+            padding-top: 140px;
+        }
+    }
+</style>

@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { instruments } from '../data/instruments';
+import InstrumentCard from '../components/InstrumentCard.astro';
+---
+
+<Layout title="Collection d'Instruments - Benjamin Dietlin Lutherie">
+    <div class="instruments-page">
+        <div class="page-header">
+            <div class="container">
+                <h1>Notre Collection</h1>
+                <p>Découvrez nos créations artisanales, des instruments uniques conçus avec passion.</p>
+            </div>
+        </div>
+
+        <section class="collection-grid">
+            <div class="container">
+                <div class="grid">
+                    {instruments.map((inst) => (
+                        <div class="grid-item">
+                            <InstrumentCard instrument={inst} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    .instruments-page {
+        padding-top: 120px; /* Espace pour le header fixe */
+    }
+
+    .page-header {
+        background: var(--bg-light);
+        padding: 4rem 0;
+        text-align: center;
+        border-bottom: 1px solid rgba(161, 84, 10, 0.1);
+    }
+
+    .page-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        color: var(--onyx);
+        margin-bottom: 1rem;
+    }
+
+    .page-header p {
+        font-size: 1.2rem;
+        color: var(--chocolate-brown);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .collection-grid {
+        padding: 4rem 0;
+        background: #fdfdfd;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2.5rem;
+    }
+
+    .grid-item {
+        height: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+        
+        .grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+    }
+</style>

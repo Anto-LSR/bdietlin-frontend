@@ -1,0 +1,267 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { exhibitions } from '../data/exhibitions';
+
+const now = new Date();
+
+// Groupage par futur et passé
+const sorted = [...exhibitions].sort((a, b) => a.date.getTime() - b.date.getTime());
+const upcoming = sorted.filter(e => e.date >= now);
+const past = sorted.filter(e => e.date < now).sort((a, b) => b.date.getTime() - a.date.getTime());
+
+const formatDate = (date: Date) => {
+    return date.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+};
+---
+
+<Layout title="Expositions - Benjamin Dietlin Lutherie">
+    <div class="page-container">
+        <div class="page-header">
+            <div class="container">
+                <h1>Agenda des Expositions</h1>
+                <p>Suivez les déplacements de l'atelier dans toute la France.</p>
+            </div>
+        </div>
+
+        <section class="exhibitions-section">
+            <div class="container">
+                {upcoming.length > 0 && (
+                    <div class="category-group">
+                        <h2 class="category-title">Prochains Événements</h2>
+                        <div class="list-container">
+                            {upcoming.map((expo) => (
+                                <article class="expo-card upcoming">
+                                    <div class="date-side">
+                                        <span class="day">{expo.date.getDate()}</span>
+                                        <span class="month">{expo.date.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '')}</span>
+                                        <span class="year">{expo.date.getFullYear()}</span>
+                                    </div>
+                                    <div class="content-side">
+                                        <h3>{expo.title}</h3>
+                                        <div class="meta">
+                                            <span><strong>Lieu :</strong> {expo.location}</span>
+                                            <span><strong>Horaire :</strong> {expo.time}</span>
+                                        </div>
+                                        {expo.description && <p class="description">{expo.description}</p>}
+                                        {expo.moreInfoUrl && (
+                                            <a href={expo.moreInfoUrl} class="link" target="_blank" rel="noopener noreferrer">
+                                                Informations complémentaires →
+                                            </a>
+                                        )}
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                {past.length > 0 && (
+                    <div class="category-group past-events">
+                        <h2 class="category-title">Événements Passés</h2>
+                        <div class="list-container">
+                            {past.map((expo) => (
+                                <article class="expo-card is-past">
+                                    <div class="date-side">
+                                        <span class="day">{expo.date.getDate()}</span>
+                                        <span class="month">{expo.date.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '')}</span>
+                                    </div>
+                                    <div class="content-side">
+                                        <h3>{expo.title}</h3>
+                                        <p class="meta">{expo.location} — {expo.date.getFullYear()}</p>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div class="back-nav">
+                    <a href="/#expositions" class="back-link">
+                        ← Retour à l'accueil
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    .page-container {
+        padding-top: 120px;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .page-header h1 {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        margin-bottom: 1rem;
+        color: var(--coffee-bean);
+    }
+
+    .page-header p {
+        font-family: 'Merriweather', serif;
+        font-size: 1.2rem;
+        color: var(--ash-brown);
+        opacity: 0.8;
+    }
+
+    .exhibitions-section {
+        padding-bottom: 8rem;
+    }
+
+    .category-group {
+        margin-bottom: 6rem;
+    }
+
+    .category-title {
+        font-size: 1.8rem;
+        text-align: left;
+        margin-bottom: 3rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        color: var(--onyx);
+    }
+
+    .list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .expo-card {
+        display: flex;
+        gap: 3rem;
+        background: white;
+        padding: 3rem;
+        border-radius: 4px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .expo-card.upcoming {
+        border-left: 4px solid var(--chocolate-brown);
+    }
+
+    .date-side {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 80px;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .date-side .day {
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .date-side .month {
+        text-transform: uppercase;
+        color: var(--chocolate-brown);
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.1em;
+    }
+
+    .date-side .year {
+        font-size: 0.9rem;
+        color: var(--ash-brown);
+    }
+
+    .content-side h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .meta {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
+        color: var(--ash-brown);
+        font-size: 1rem;
+    }
+
+    .description {
+        line-height: 1.8;
+        margin-bottom: 2rem;
+        color: var(--carbon-black);
+        opacity: 0.8;
+    }
+
+    .link {
+        color: var(--chocolate-brown);
+        text-decoration: none;
+        font-weight: 700;
+        transition: var(--transition-smooth);
+    }
+
+    .link:hover {
+        text-decoration: underline;
+    }
+
+    /* Styles pour les événements passés */
+    .past-events .list-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .expo-card.is-past {
+        padding: 1.5rem 2rem;
+        gap: 2rem;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0.8;
+        align-items: center;
+    }
+
+    .expo-card.is-past .date-side {
+        min-width: 60px;
+    }
+
+    .expo-card.is-past .day { font-size: 1.5rem; }
+    .expo-card.is-past .month { font-size: 0.75rem; }
+    .expo-card.is-past h3 { font-size: 1.3rem; margin-bottom: 0.2rem; }
+    .expo-card.is-past .meta { margin-bottom: 0; font-size: 0.9rem; }
+
+    .back-nav {
+        margin-top: 4rem;
+        text-align: center;
+    }
+
+    .back-link {
+        text-decoration: none;
+        color: var(--ash-brown);
+        font-weight: 600;
+        transition: var(--transition-smooth);
+    }
+
+    .back-link:hover {
+        color: var(--onyx);
+    }
+
+    @media (max-width: 768px) {
+        .expo-card {
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .past-events .list-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

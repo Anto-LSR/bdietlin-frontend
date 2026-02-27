@@ -1,0 +1,253 @@
+---
+import { exhibitions } from '../data/exhibitions';
+
+const now = new Date();
+
+// Trier par date pour trouver les événements futurs et passés
+const sorted = [...exhibitions].sort((a, b) => a.date.getTime() - b.date.getTime());
+const upcoming = sorted.filter(e => e.date >= now);
+const past = sorted.filter(e => e.date < now).reverse();
+
+// On veut afficher 3 éléments en priorité ceux à venir, puis les plus récents passés
+const displayExhibitions = [...upcoming, ...past].slice(0, 3);
+
+const formatDate = (date: Date) => {
+    return date.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+};
+---
+
+<section id="expositions">
+    <div class="container">
+        <div class="section-header">
+            <h2>Expositions</h2>
+            <p class="subtitle">Rencontrez l'artisan lors d'événements et de salons de lutherie.</p>
+        </div>
+        
+        <div class="exhibitions-grid">
+            {displayExhibitions.map((expo) => {
+                const isPast = expo.date < now;
+                return (
+                    <div class={`exhibition-item ${isPast ? 'is-past' : ''}`}>
+                        <div class="status-badge">{isPast ? 'Passée' : 'À venir'}</div>
+                        <div class="expo-date">
+                            <span class="day">{expo.date.getDate()}</span>
+                            <span class="month">{expo.date.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '')}</span>
+                            <span class="year">{expo.date.getFullYear()}</span>
+                        </div>
+                        <div class="expo-info">
+                            <h3>{expo.title}</h3>
+                            <p class="expo-meta">
+                                <span>{expo.location}</span>
+                                <span class="separator">•</span>
+                                <span>{expo.time}</span>
+                            </p>
+                            {expo.description && <p class="expo-desc">{expo.description}</p>}
+                            {expo.moreInfoUrl && (
+                                <a href={expo.moreInfoUrl} class="expo-link" target="_blank" rel="noopener noreferrer">
+                                    En savoir plus
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+        
+        <div class="view-all">
+            <a href="/expositions" class="btn-minimal">
+                Voir toutes les expositions 
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    #expositions {
+        background-color: #fff; /* Fond blanc pour plus de sobriété */
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+
+    .subtitle {
+        font-family: 'Merriweather', serif;
+        font-size: 1.1rem;
+        color: var(--ash-brown);
+        opacity: 0.8;
+        margin-top: -3.5rem;
+    }
+
+    .exhibitions-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .exhibition-item {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 3rem;
+        padding: 2.5rem;
+        background: var(--bg-light);
+        border-radius: 4px;
+        transition: var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+        border-left: 4px solid var(--chocolate-brown);
+    }
+
+    .exhibition-item.is-past {
+        opacity: 0.7;
+        border-left-color: var(--ash-brown);
+        background: rgba(89, 75, 66, 0.03);
+    }
+
+    .status-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.4rem 1.2rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 700;
+        background: var(--chocolate-brown);
+        color: white;
+    }
+
+    .is-past .status-badge {
+        background: var(--ash-brown);
+    }
+
+    .expo-date {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding-right: 2rem;
+        border-right: 1px solid rgba(0,0,0,0.1);
+        font-family: 'Playfair Display', serif;
+    }
+
+    .expo-date .day {
+        font-size: 2.5rem;
+        line-height: 1;
+        font-weight: 700;
+        color: var(--onyx);
+    }
+
+    .expo-date .month {
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.2em;
+        color: var(--chocolate-brown);
+        margin: 0.2rem 0;
+    }
+
+    .expo-date .year {
+        font-size: 0.9rem;
+        color: var(--ash-brown);
+    }
+
+    .expo-info h3 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: var(--coffee-bean);
+    }
+
+    .expo-meta {
+        font-size: 0.95rem;
+        color: var(--ash-brown);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .separator {
+        margin: 0 0.8rem;
+        opacity: 0.5;
+    }
+
+    .expo-desc {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--carbon-black);
+        opacity: 0.8;
+        font-style: italic;
+        margin-bottom: 1.5rem;
+    }
+
+    .expo-link {
+        color: var(--chocolate-brown);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid transparent;
+        transition: var(--transition-smooth);
+    }
+
+    .expo-link:hover {
+        border-bottom-color: var(--chocolate-brown);
+    }
+
+    .view-all {
+        text-align: center;
+        margin-top: 5rem;
+    }
+
+    .btn-minimal {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        color: var(--onyx);
+        text-decoration: none;
+        font-weight: 600;
+        border: 1px solid var(--onyx);
+        transition: var(--transition-smooth);
+    }
+
+    .btn-minimal:hover {
+        background: var(--onyx);
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        .exhibition-item {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .expo-date {
+            border-right: none;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-right: 0;
+            padding-bottom: 1rem;
+            flex-direction: row;
+            gap: 0.5rem;
+        }
+
+        .expo-date .day { font-size: 1.8rem; }
+        
+        .subtitle {
+            margin-top: -3rem;
+            padding: 0 1rem;
+        }
+    }
+</style>

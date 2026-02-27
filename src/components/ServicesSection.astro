@@ -1,11 +1,16 @@
 ---
 import chat from '../assets/chat.jpg'
+import mascotte from '../assets/images/mascotte.png'
+import atelierBg from '../assets/images/atelier.jpg'
+import { getImage } from 'astro:assets'
+
+const optimizedAtelier = await getImage({ src: atelierBg, format: 'webp', width: 1920 });
 ---
 
 
-<section id="services">
+<section id="services" style={`background: linear-gradient(rgba(20, 13, 14, 0.5), rgba(20, 13, 14, 0.5)), url(${optimizedAtelier.src}) center/cover no-repeat fixed;`}>
     <div class="container">
-        <h2 style="color:white;">L'atelier</h2>
+        <h2 style="color:white;">Prestations</h2>
         <div class="grid">
             <div class="card">
                 <h3>Fabrication sur mesure</h3>
@@ -29,7 +34,7 @@ import chat from '../assets/chat.jpg'
         <div class="mascot-bubble">
             Lui c'est Pacha, c'est lui qui m'a tout appris et qui gère le bilan comptable
         </div>
-        <img src="/assets/images/mascotte.png" alt="Mascotte Pacha" class="mascot-img" />
+        <img src={mascotte.src} alt="Mascotte Pacha" class="mascot-img" />
     </div>
 </section>
 

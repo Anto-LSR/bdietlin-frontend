@@ -1,0 +1,122 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { news } from '../../data/news';
+
+const sortedNews = [...news].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+
+<Layout title="Actualités | Luthier Artisan">
+    <section class="news-archive">
+        <div class="container">
+            <h1>Actualités</h1>
+            <div class="grid">
+                {sortedNews.map((item) => (
+                    <article class="card">
+                        <div class="image-wrapper">
+                            <img src={item.image} alt={item.title} />
+                        </div>
+                        <div class="content">
+                            <span class="date">{new Date(item.date).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                            <h3>{item.title}</h3>
+                            <p>{item.excerpt}</p>
+                            <a href={`/actualites/${item.slug}`} class="read-more">Lire l'article</a>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .news-archive {
+        padding: 120px 0 5rem;
+        background-color: var(--bg-light);
+        min-height: 80vh;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 4rem;
+        font-size: 3.5rem;
+        color: var(--coffee-bean);
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+    }
+    .card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    .image-wrapper {
+        height: 250px;
+        overflow: hidden;
+    }
+    .image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .card:hover .image-wrapper img {
+        transform: scale(1.05);
+    }
+    .content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .date {
+        font-size: 0.85rem;
+        color: var(--ash-brown);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+        display: block;
+    }
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--chocolate-brown);
+    }
+    p {
+        color: #555;
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+    }
+    .read-more {
+        align-self: flex-start;
+        color: var(--oak-wood);
+        text-decoration: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        border-bottom: 2px solid transparent;
+        transition: border-color 0.3s ease;
+    }
+    .read-more:hover {
+        border-bottom-color: var(--oak-wood);
+    }
+    @media (max-width: 768px) {
+        h1 { font-size: 2.5rem; }
+        .grid { grid-template-columns: 1fr; }
+    }
+</style>

@@ -12,10 +12,11 @@ import logo from '../assets/logo.svg';  // Astro optimise automatiquement (webp,
             <span class="logo-text">Benjamin Dietlin Lutherie</span>
         </a>
         <ul>
-            <li><a href="#instruments">Instruments</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#news">Actualités</a></li>
-            <li><a href="#news">Expositions</a></li>
+            <li><a href="/instruments">Instruments</a></li>
+            <li><a href="/actualites">Actualités</a></li>
+            <li><a href="/expositions">Expositions</a></li>
+            <li><a href="/#services">Prestations</a></li>
+            <li><a href="/about">À propos</a></li>
         </ul>
     </nav>
 </header>
@@ -28,7 +29,7 @@ import logo from '../assets/logo.svg';  // Astro optimise automatiquement (webp,
         } else {
             header?.classList.remove('scrolled');
         }
-    });
+    }, { passive: true });
 </script>
 
 <style>

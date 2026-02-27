@@ -1,13 +1,129 @@
-<section id="news">
+---
+import { news } from '../data/news';
+import { getImage } from 'astro:assets';
+import bgNews from '../assets/images/bg_news.jpg';
+
+const optimizedBgNews = await getImage({ src: bgNews, format: 'webp', width: 1920 });
+
+// On prend les 3 dernières actualités (triées par date décroissante)
+const latestNews = [...news]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
+---
+
+<section id="news" style={`background: linear-gradient(rgba(20, 13, 14, 0.5), rgba(20, 13, 14, 0.5)), url(${optimizedBgNews.src}) center/cover no-repeat fixed;`}>
     <div class="container">
-        <h2>Dernières Actualités</h2>
+        <h2 style="color: var(--oak-wood)">Dernières Actualités</h2>
         <div class="grid">
-            <div class="card">
-                <div style="background:#d4a574;width:80px;height:80px;margin:0 auto 1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:2rem;">🎻</div>
-                <h3>Nouvelle guitare archtop</h3>
-                <p>Présentation de notre dernier modèle inspiré des standards jazz des années 50.</p>
-            </div>
-            <!-- 2 autres cards similaires -->
+            {latestNews.map((item) => (
+                <article class="card">
+                    <div class="image-wrapper">
+                        <img src={item.image} alt={item.title} />
+                    </div>
+                    <div class="content">
+                        <h3>{item.title}</h3>
+                        <p>{item.excerpt}</p>
+                        <a href={`/actualites/${item.slug}`} class="read-more">Lire la suite</a>
+                    </div>
+                </article>
+            ))}
+        </div>
+        <div class="view-all">
+            <a href="/actualites" class="button">Voir toutes les actus</a>
         </div>
     </div>
 </section>
+
+<style>
+    #news {
+        padding: 5rem 0;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 3rem;
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    .card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .image-wrapper {
+        height: 200px;
+        overflow: hidden;
+    }
+    .image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    .card:hover .image-wrapper img {
+        transform: scale(1.05);
+    }
+    .content {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    h3 {
+        font-family: 'Playfair Display', serif;
+        color: var(--chocolate-brown);
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+    }
+    p {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        flex-grow: 1;
+    }
+    .read-more {
+        color: var(--oak-wood);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .read-more:hover {
+        text-decoration: underline;
+    }
+    .view-all {
+        text-align: center;
+    }
+    .button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: var(--oak-wood);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    .button:hover {
+        background-color: var(--chocolate-brown);
+    }
+</style>
